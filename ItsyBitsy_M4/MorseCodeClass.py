@@ -25,6 +25,8 @@ in_letter_space = unit
 between_letter_space = 3 * unit
 between_word_space = 7 * unit
 
+
+
 MORSE_CODE_DICT = { 'A':'.-', 'B':'-...',
                     'C':'-.-.', 'D':'-..', 'E':'.',
                     'F':'..-.', 'G':'--.', 'H':'....',
@@ -73,42 +75,80 @@ def mLetter(code):
         c = code[i]
         if(c=='.'):
             pulse(True, dot_length)
-        if(c=='-'):
+        elif(c=='-'):
             pulse(True, dash_length)
-    if i < code_len - 1:
-        pulse(False, in_letter_space)
+        if i < code_len - 1:
+            pulse(False, in_letter_space)
+
+def getCodeDuration(code):
+    duration = 0
+    code_len = len(code)
+    for i in range(0, code_len):
+        c = code[i]
+        if c == '.' :
+            duration += dot_length
+        else:
+            duration += dash_length
+        if i < code_len - 1:
+            duration += in_letter_space
+    return duration
+
+
+def durationOfMessage(word):
+    unitCount = 0
+    word_len = len(word)
+    for i in range(0, word_len):
+        c = word[i]
+        if c == " ":
+            print(between_word_space)
+        else:
+            code = MORSE_CODE_DICT[c.upper()]
+            print(getCodeDuration(code))
+            if i == word_len - 1:
+                break
+            elif i < word_len - 1 and word[i + 1] != " ":
+                print(between_letter_space)
+    return unitCount
+
 
 def mWord(word):
     print(word)
     word_len = len(word)
     for i in range(0, word_len):
-        c = word[i].upper()
-        code = MORSE_CODE_DICT[c.upper()]
-        print(c)
-        print(code)
-        if c == 'i' or c == 'I':
-            mLetter("..")
+        c = word[i]
         if c == " ":
             pulse(False, between_word_space)
-        if c == 'l' or c == 'L':
-            mLetter(".-..")
-        if c == 'o' or c == 'O':
-            mLetter("---")
-        if c == 'v' or c == 'V':
-            mLetter("...-")
-        if c == 'e' or c == 'E':
-            mLetter(".")
-        if c == 'y' or c == 'Y':
-            mLetter("-.--")
-        if c == 'u' or c == 'U':
-            mLetter("..-")
-        if c == 's' or c == 'S':
-            mLetter("...")
-    if i < word_len - 1:
-        pulse(False, between_word_space)
+        else:
+            mLetter(MORSE_CODE_DICT[c.upper()])
+            if i == word_len - 1:
+                break
+            elif i < word_len - 1 and word[i+1] != " ":
+                pulse(False, between_letter_space)
+
+        # if c == 'i' or c == 'I':
+        #     mLetter("..")
+        # if c == 'l' or c == 'L':
+        #     mLetter(".-..")
+        # if c == 'o' or c == 'O':
+        #     mLetter("---")
+        # if c == 'v' or c == 'V':
+        #     mLetter("...-")
+        # if c == 'e' or c == 'E':
+        #     mLetter(".")
+        # if c == 'y' or c == 'Y':
+        #     mLetter("-.--")
+        # if c == 'u' or c == 'U':
+        #     mLetter("..-")
+        # if c == 's' or c == 'S':
+        #     mLetter("...")
+    # if i < word_len - 1:
+    #     pulse(False, between_word_space)
 
 #mWord("I love you")
 # pulse(False, 3)
 print(f"totaltime = {totaltime}")
-mWord("s")
+# code_dur = getCodeDuration("...")
+# print(code_dur)
+print(durationOfMessage("eee e"))
+mWord("eee e")
 print(f"totaltime = {totaltime}")
