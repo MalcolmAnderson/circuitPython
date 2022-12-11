@@ -27,20 +27,15 @@ between_word_space = 7 * unit
 
 
 
-MORSE_CODE_DICT = { 'A':'.-', 'B':'-...',
-                    'C':'-.-.', 'D':'-..', 'E':'.',
-                    'F':'..-.', 'G':'--.', 'H':'....',
-                    'I':'..', 'J':'.---', 'K':'-.-',
-                    'L':'.-..', 'M':'--', 'N':'-.',
-                    'O':'---', 'P':'.--.', 'Q':'--.-',
-                    'R':'.-.', 'S':'...', 'T':'-',
-                    'U':'..-', 'V':'...-', 'W':'.--',
-                    'X':'-..-', 'Y':'-.--', 'Z':'--..',
-                    '1':'.----', '2':'..---', '3':'...--',
-                    '4':'....-', '5':'.....', '6':'-....',
-                    '7':'--...', '8':'---..', '9':'----.',
-                    '0':'-----', ', ':'--..--', '.':'.-.-.-',
-                    '?':'..--..', '/':'-..-.', '-':'-....-',
+MORSE_CODE_DICT = { 'A':'.-', 'B':'-...', 'C':'-.-.', 'D':'-..', 'E':'.',
+                    'F':'..-.', 'G':'--.', 'H':'....', 'I':'..', 'J':'.---', 
+                    'K':'-.-', 'L':'.-..', 'M':'--', 'N':'-.', 'O':'---', 
+                    'P':'.--.', 'Q':'--.-', 'R':'.-.', 'S':'...', 'T':'-',
+                    'U':'..-', 'V':'...-', 'W':'.--', 'X':'-..-', 'Y':'-.--', 
+                    'Z':'--..', '1':'.----', '2':'..---', '3':'...--', 
+                    '4':'....-', '5':'.....', '6':'-....', '7':'--...', 
+                    '8':'---..', '9':'----.', '0':'-----', ', ':'--..--', 
+                    '.':'.-.-.-', '?':'..--..', '/':'-..-.', '-':'-....-',
                     '(':'-.--.', ')':'-.--.-'}
 
 totaltime = 0
@@ -57,7 +52,6 @@ def pulse(state, seconds):
     #time.sleep(seconds)
     totaltime += seconds
 
-    pass
 
 def pause(seconds):
     pulse(False, seconds)
@@ -80,6 +74,7 @@ def mLetter(code):
         if i < code_len - 1:
             pulse(False, in_letter_space)
 
+""" Validation code, takes a dot and a dash"""
 def getCodeDuration(code):
     duration = 0
     code_len = len(code)
@@ -87,13 +82,15 @@ def getCodeDuration(code):
         c = code[i]
         if c == '.' :
             duration += dot_length
-        else:
+        elif c == '-':
             duration += dash_length
+        else:
+            raise ValueError("getCodeDuration only accepts dots '.' or dashes '-'")
         if i < code_len - 1:
             duration += in_letter_space
     return duration
 
-
+""" Validation code to insure that between letter and between words are correct"""
 def durationOfMessage(word):
     unitCount = 0
     word_len = len(word)
@@ -110,7 +107,7 @@ def durationOfMessage(word):
                 print(between_letter_space)
     return unitCount
 
-
+""" Should be called mMessage"""
 def mWord(word):
     print(word)
     word_len = len(word)
@@ -124,25 +121,6 @@ def mWord(word):
                 break
             elif i < word_len - 1 and word[i+1] != " ":
                 pulse(False, between_letter_space)
-
-        # if c == 'i' or c == 'I':
-        #     mLetter("..")
-        # if c == 'l' or c == 'L':
-        #     mLetter(".-..")
-        # if c == 'o' or c == 'O':
-        #     mLetter("---")
-        # if c == 'v' or c == 'V':
-        #     mLetter("...-")
-        # if c == 'e' or c == 'E':
-        #     mLetter(".")
-        # if c == 'y' or c == 'Y':
-        #     mLetter("-.--")
-        # if c == 'u' or c == 'U':
-        #     mLetter("..-")
-        # if c == 's' or c == 'S':
-        #     mLetter("...")
-    # if i < word_len - 1:
-    #     pulse(False, between_word_space)
 
 #mWord("I love you")
 # pulse(False, 3)
