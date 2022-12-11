@@ -17,13 +17,15 @@ import digitalio
 led = digitalio.DigitalInOut(board.D5)
 led.direction = digitalio.Direction.OUTPUT
 
-handicap = 5
+handicap = 1
 unit = .1 * handicap
 dot_length = unit
 dash_length = 3 * unit
 in_letter_space = unit
 between_letter_space = 3 * unit
 between_word_space = 7 * unit
+
+
 
 def pulse(state, seconds):
     #if state:
